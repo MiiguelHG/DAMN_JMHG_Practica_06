@@ -1,0 +1,68 @@
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Oferta</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="ttitulo" class="form-label">Titulo: </label>
+                <input type="text" [(ngModel)]="titulo" class="form-control" id="ttitulo" name="ttitulo">
+              </div>
+              <div class="mb-3">
+                <label for="tmensaje" class="form-label">Mensaje: </label>
+                <input type="text" [(ngModel)]="mensaje" class="form-control" id="tmensaje" name="tmensaje">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button (click)="enviarNotificaciones()" type="button" class="btn btn-success" data-bs-dismiss="modal">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container mt-5">
+  <h1>Usuarios</h1>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Enviar notificación
+  </button>
+</div>
+<div class="container mt-5" *ngIf="data; else noData">
+  <br>
+  <table class="table table-striped">
+      <thead>
+          <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Correo</th>
+          <th scope="col">Token</th>
+          <th scope="col">Check</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let user of data | keyvalue">
+              <th scope="row">{{user.key}}</th>
+              <td>{{user.value.nombre}}</td>
+              <td>{{user.value.correo}}</td>
+              <td style="word-wrap: break-word; max-width: 330px;">{{user.value.token}}</td>
+              <td>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" #checkboxInput (change)="toggleToken(user.value?.token, checkboxInput.checked)" id="checktoken-{{user.key}}" name="checktoken" [disabled]="!user.value?.token">
+                    <label class="form-check-label" for="checktoken-{{user.key}}">
+                        Notificación
+                      </label>
+                    </div>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+<ng-template #noData>
+    <h1>No hay datos</h1>
+<router-outlet />
